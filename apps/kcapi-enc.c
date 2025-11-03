@@ -473,10 +473,12 @@ static int cipher_op(struct kcapi_handle *handle, struct opt_data *opts)
 
 	/* AEAD specific code */
 	if (opts->aad) {
-		ret = hex2bin_alloc(opts->aad, (uint32_t)strlen(opts->aad),
-				    &aadbuf, &opts->aadlen);
-		if (ret)
-			goto out;
+		if(strlen(opts->aad) > 0) {
+			ret = hex2bin_alloc(opts->aad, (uint32_t)strlen(opts->aad),
+						&aadbuf, &opts->aadlen);
+			if (ret)
+				goto out;
+		}
 
 		/* Set AAD length. */
 		kcapi_aead_setassoclen(handle, opts->aadlen);
